@@ -6,17 +6,14 @@ public class PersonBuilder {
     protected String surname = "";
     protected int age = 0;
     protected String city = "";
-    private int count = 0;
 
     public PersonBuilder setName(String name) {
         this.name = name;
-        count++;
         return this;
     }
 
     public PersonBuilder setSurname(String surname) {
         this.surname = surname;
-        count++;
         return this;
     }
 
@@ -28,16 +25,23 @@ public class PersonBuilder {
             throw new IllegalArgumentException();
         }
     }
+
     public PersonBuilder setCity(String city) {
         this.city = city;
         return this;
     }
 
     public Person build() {
-        if (count >= 2) {
-            return new Person(this);
-        } else {
+        if (name.equals("") || surname.equals("")) {
             throw new IllegalStateException();
+        } else if (age > 0 && city.equals("")) {
+            return new Person(name, surname, age);
+        } else if (age == 0 && city.equals("")) {
+            return new Person(name, surname);
+        } else if (age == 0 && !city.isEmpty()) {
+            return new Person(name, surname, city);
+        } else {
+            return new Person(name, surname, age, city);
         }
     }
 }

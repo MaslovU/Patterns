@@ -17,12 +17,25 @@ public class Person {
         this.age = age;
     }
 
-    public Person(PersonBuilder personBuilder) {
-        name = personBuilder.name;
-        surname = personBuilder.surname;
-        age = personBuilder.age;
-        city = personBuilder.city;
+    public Person(String name, String surname, String city) {
+        this.name = name;
+        this.surname = surname;
+        this.city = city;
     }
+
+    public Person(String name, String surname, int age, String city) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.city = city;
+    }
+
+    //    public Person(PersonBuilder personBuilder) {
+//        name = personBuilder.name;
+//        surname = personBuilder.surname;
+//        age = personBuilder.age;
+//        city = personBuilder.city;
+//    }
 
     public PersonBuilder newChildBuilder() {
         return new PersonBuilder()
