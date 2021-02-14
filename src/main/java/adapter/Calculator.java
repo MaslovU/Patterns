@@ -12,7 +12,8 @@ public class Calculator {
     public static class Formula {
         protected Double a, b, result;
 
-        protected Formula() {}
+        protected Formula() {
+        }
 
         public Formula addOperand(double operand) {
             if (a == null) {
