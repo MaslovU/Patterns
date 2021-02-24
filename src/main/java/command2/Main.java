@@ -32,53 +32,54 @@ public class Main {
             customCommand = reader.readLine();
             if (customCommand.equals("0")) break;
 
-            if (customCommand.equals("<<")) {
-                if (curCommand < 0) {
-                    System.out.println("Нечего отменять!");
-                } else {
-                    step = steps.get(curCommand);
-                    commands.get(curCommand).undoMove(step);
-                    canceledSteps.add(0, step);
-                    curCommand--;
-                }
-            } else if (customCommand.equals(">>")) {
-                if (curCommand == commands.size() - 1) {
-                    System.out.println("Нечего отменять!");
-                } else {
-                    curCommand++;
-                    step = canceledSteps.get(0);
-                    commands.get(curCommand).doMove(step);
-                }
-                canceledSteps.remove(0);
-            } else if (customCommand.equals("!!")) {
-                if (curCommand < 0) {
-                    System.out.println("Нечего повторять!");
-                } else {
-                    commands.get(curCommand).doMove(step);
-                }
-            }else {
-                //пользователь ввёл новое движение для лягушки
-                step = Integer.parseInt(customCommand);
-                if (curCommand != commands.size() - 1) {
-                    //удаляем все команды которые были отменены
-                    for (int s: canceledSteps) {
-                        steps.remove(steps.indexOf(s));
-                    }
-                    canceledSteps.clear();
-                }
-                try {
-                    if (step > 0) {
-                        cmd = FrogCommands.jumpRightCommand(frog, step);
+            switch (customCommand) {
+                case "<<":
+                    if (curCommand < 0) {
+                        System.out.println("Нечего отменять!");
                     } else {
-                        cmd = FrogCommands.jumpLeftCommand(frog, step);
+                        step = steps.get(curCommand);
+                        commands.get(curCommand).undoMove(step);
+                        canceledSteps.add(0, step);
+                        curCommand--;
                     }
-                    steps.add(step);
-                    curCommand++;
-                    commands.add(cmd);
-                    cmd.doMove(step);
-                } catch (Exception e) {
-                    System.out.println("Вы превысили размеры болота! Введите иное число!");
-                }
+                    break;
+                case ">>":
+                    if (curCommand == commands.size() - 1) {
+                        System.out.println("Нечего отменять!");
+                    } else {
+                        curCommand++;
+                        step = canceledSteps.get(0);
+                        commands.get(curCommand).doMove(step);
+                    }
+                    canceledSteps.remove(0);
+                    break;
+                case "!!":
+                    if (curCommand < 0) {
+                        System.out.println("Нечего повторять!");
+                    } else {
+                        commands.get(curCommand).doMove(step);
+                    }
+                    break;
+                default:
+                    //пользователь ввёл новое движение для лягушки
+                    step = Integer.parseInt(customCommand);
+                    if (curCommand != commands.size() - 1) {
+                        //удаляем все команды которые были отменены
+                        for (int s : canceledSteps) {
+                            steps.remove(steps.indexOf(s));
+                        }
+                        canceledSteps.clear();
+                    }
+                    try {
+                        cmd = FrogCommands.jumpCommand(frog, step);
+                        steps.add(step);
+                        curCommand++;
+                        commands.add(cmd);
+                        cmd.doMove(step);
+                    } catch (Exception e) {
+                        System.out.println("Вы превысили размеры болота! Введите иное число!");
+                    }
+                    break;
             }
             //рисуем поле после команды
             System.out.println("Current position is: " + frog.getPosition());
